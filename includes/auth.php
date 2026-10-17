@@ -5,9 +5,10 @@ $email = trim($_POST["email"]);
 $userName = trim($_POST["username"]);
 
 // Registration
-
 function isValidUsername($username)
 {
+    if (empty ($username))
+        return false;
     return strlen($username) >= 3 && strlen($username) <= 50;
 }
 
