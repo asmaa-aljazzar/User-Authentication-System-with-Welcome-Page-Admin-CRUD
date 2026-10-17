@@ -24,7 +24,7 @@ function closeCursor($stmt)
 // Registration
 function isValidPassword($pass)
 {
-
+    
 }
 
 // Login
