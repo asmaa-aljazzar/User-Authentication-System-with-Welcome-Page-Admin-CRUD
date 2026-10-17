@@ -4,17 +4,12 @@ if (session_status() == PHP_SESSION_NONE)
 
 require_once "includes/utils.php";
 require_once "includes/auth.php";
+require_once "includes/admin_auth.php";
+
 
 
 // Redirect if already logged in
-if (isset ($_SESSION["user_id"]))
-{
-    if ($_SESSION["role"] === "admin")
-       header('Location: admin/dashboard.php');
-    else
-        header ("Location: welcome.php");
-    exit;
-}
+checkRole();
 
 $error = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
