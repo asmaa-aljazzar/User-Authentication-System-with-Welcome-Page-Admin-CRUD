@@ -4,21 +4,32 @@ require("config/dbconnect.php");
 $pass = $_POST["pass"];
 $email = $_POST["email"];
 
-function isExist($feild, $value)
-{
-
-}
 
 
 function prepare($sql)
 {
-    global $pdo;
-    return $pdo->prepare($sql);
+    global $db;
+    return $db->prepare($sql);
 }
 
 function closeCursor($stmt)
 {
     $stmt->closeCursor();
+}
+
+function isExist($field, $value)
+{
+    $sql = "SELECT * FROM user WHERE $field = ?";
+
+    $stmt = prepare($sql);
+
+    $stmt->execute ([$value]);
+
+    $exists = (bool) $stmt->fetchColumn();
+    
+    closeCursor($stmt);
+    
+    return $exists;
 }
 
 // Registration
@@ -40,10 +51,11 @@ function isVerifiedPassword($pass)
     $stmt -> execute([$email]);
     
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
+    closeCursor($stmt);
+
     return password_verify($pass, $user["password"]);
 }
-
 
 function isValidEmail($email)
 {
