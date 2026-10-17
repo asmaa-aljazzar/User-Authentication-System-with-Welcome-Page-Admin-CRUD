@@ -1,14 +1,13 @@
+
 <?php
 session_start();
-$pass = $_POST["pass"];
-$email = trim($_POST["email"]);
-$userName = trim($_POST["username"]);
 
 // Registration
 function isValidUsername($username)
 {
-    if (empty ($username))
+    if (empty($username))
         return false;
+
     return strlen($username) >= 3 && strlen($username) <= 50;
 }
 
@@ -45,7 +44,7 @@ function isValidPassword($pass)
         $errors[] = "Password must contain a digit.";
     }
 
-    if (!preg_match('/[!@*#$%^&]/', $pass)) {
+    if (!preg_match('/[!@\*#$%^&]/', $pass)) {
         $errors[] = "Password must contain a special character.";
     }
 
@@ -56,6 +55,7 @@ function isValidPassword($pass)
 function isVerifiedPassword($pass)
 {
     global $email;
+
     if (empty($pass))
         return false;
 
@@ -85,6 +85,4 @@ function isVerifiedEmail($email)
 
     return $exists;
 }
-
-
 ?>
