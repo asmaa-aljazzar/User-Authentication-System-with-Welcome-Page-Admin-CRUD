@@ -1,11 +1,6 @@
 <?php
 require("config/dbconnect.php");
 
-$pass = $_POST["pass"];
-$email = $_POST["email"];
-
-
-
 function prepare($sql)
 {
     global $db;
@@ -19,70 +14,45 @@ function closeCursor($stmt)
 
 function isExist($field, $value)
 {
-    $sql = "SELECT * FROM user WHERE $field = ?";
+    $allowedFields = ['username', 'email'];
+
+    if (!in_array($field, $allowedFields, true)) {
+        return false;
+    }
+
+    $sql = "SELECT 1 FROM user WHERE $field = ?";
 
     $stmt = prepare($sql);
 
-    $stmt->execute ([$value]);
+    $stmt->execute([$value]);
 
     $exists = (bool) $stmt->fetchColumn();
-    
-    closeCursor($stmt);
-    
-    return $exists;
-}
-
-// Registration
-function isValidPassword($pass)
-{
-
-}
-
-// Login
-function isVerifiedPassword($pass)
-{
-    global $email;
-    if (empty($pass))
-        return false;
-    
-    $sql = "SELECT * FROM users WHERE email = ?";
-    
-    $stmt = prepare($sql);
-    $stmt -> execute([$email]);
-    
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     closeCursor($stmt);
 
-    return password_verify($pass, $user["password"]);
-}
-
-function isValidEmail($email)
-{
-    if (empty($email)) {
-        return false;
-    }
-
-    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        return true;
-    }
-
-    return false;
-}
-
-function isVerifiedEmail($email)
-{
-    if (!isValidEmail($email)) {
-        return false;
-    }
-
-    $stmt = prepare("SELECT 1 FROM users WHERE email = ? LIMIT 1");
-    $stmt->execute([$email]);
-
-    $exists = (bool) $stmt->fetchColumn();
-    $stmt->closeCursor();
-
     return $exists;
 }
+
+
+function displayPasswordErrors($pass)
+{
+    $errors = isValidPassword($pass);
+
+    if (empty($errors)) {
+        echo "Password is valid";
+    } else {
+        foreach ($errors as $error) {
+            echo "$error <br>";
+        }
+    }
+}
+
+function hashPassword($pass)
+{
+    if (!empty(isValidPassword($pass)))
+        return false;
+    return password_hash($pass, PASSWORD_DEFAULT);
+}
+
 
 ?>
