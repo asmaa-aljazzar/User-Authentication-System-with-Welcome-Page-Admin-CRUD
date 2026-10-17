@@ -1,9 +1,12 @@
 <?php
-    if (session_status() == PHP_SESSION_NONE) 
-        session_start();
-    require_once("../includes/admin_auth.php");
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+require_once("../includes/admin_auth.php");
+requireRole("admin");
 
-    requireRole("admin");
+require_once("../includes/crud.php");
+$users = getAllUsers();
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -30,7 +33,7 @@
             <div class="toolbar">
                 <div>
                     <h2 style="margin:0">All users</h2>
-                    <p class="small" style="margin:6px 0 0">Total sample records: 2</p>
+                    <p class="small" style="margin:6px 0 0">Total sample records: <?= count($users) ?></p>
                 </div>
                 <div class="toolbar-actions">
                     <a class="button" href="create.php">+ Add user</a>
@@ -43,57 +46,35 @@
                             <th>ID</th>
                             <th>Username</th>
                             <th>Email</th>
-                            <th>Role</th>
                             <th>Created</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>demo_user</td>
-                            <td>user@example.com</td>
-                            <td><span class="role-badge">User</span></td>
-                            <td>2026-10-01</td>
-                            <td>
-                                <div class="table-actions">
-                                    <a class="button button-secondary button-small" href="edit.php?id=1">Edit</a>
-                                    <form action="delete.php" method="post">
-                                        <input type="hidden" name="id" value="1">
-                                        <button class="button button-danger button-small" type="submit"
-                                            data-confirm="Delete this user? This cannot be undone.">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>demo_admin</td>
-                            <td>admin@example.com</td>
-                            <td><span class="role-badge admin">Admin</span></td>
-                            <td>2026-09-20</td>
-                            <td>
-                                <div class="table-actions">
-                                    <a class="button button-secondary button-small" href="edit.php?id=2">Edit</a>
-                                    <form action="delete.php" method="post">
-                                        <input type="hidden" name="id" value="2">
-                                        <button class="button button-danger button-small" type="submit"
-                                            data-confirm="Delete this user? This cannot be undone.">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
+                        <?php foreach ($users as $user): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($user["id"]) ?></td>
+                                <td><?= htmlspecialchars($user["username"]) ?></td>
+                                <td><?= htmlspecialchars($user["email"]) ?></td>
+                                <td><?= htmlspecialchars($user["created_at"]) ?></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <a class="button button-secondary button-small" href="edit.php?id=1">Edit</a>
+                                        <form action="delete.php" method="POST">
+                                            <input type="hidden" name="id" value="<?= (int) $user["id"] ?>">
+                                            <button class="button button-danger button-small" type="submit"
+                                                data-confirm="Delete this user? This cannot be undone.">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         </section>
     </main>
-    <footer class="site-footer">
-        <div class="container footer-inner">
-            <p>&copy; 2026 AuthSystem. Learning project.</p>
-            <p>Built with PHP, PDO and MySQL.</p>
-        </div>
-    </footer>
+    <?php require_once("../includes/footer.php") ?>
 </body>
 
 </html>
