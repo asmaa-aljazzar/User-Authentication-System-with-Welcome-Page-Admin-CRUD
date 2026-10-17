@@ -7,7 +7,7 @@ require_once("../includes/admin_auth.php");
 requireRole("admin");
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        addUser($_POST['username'], $_POST['email'], $_POST['password'], $_POST['role']);
+        addUser($_POST['username'], $_POST['email'], $_POST['password']);
         header("Location: dashboard.php");
         exit;
     }
@@ -51,13 +51,6 @@ requireRole("admin");
                         <label for="password">Temporary password</label>
                         <input class="form-control" id="password" name="password" type="password"
                             autocomplete="new-password" minlength="8" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="role">Role</label>
-                        <select class="form-control" id="role" name="role" required>
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
-                        </select>
                     </div>
                     <button class="button" type="submit">Add user</button>
                     <a class="button button-secondary" href="dashboard.php">Cancel</a>

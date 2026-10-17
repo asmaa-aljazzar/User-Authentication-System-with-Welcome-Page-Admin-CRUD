@@ -9,7 +9,7 @@ require_once __DIR__ . "/../config/paths.php";
 <header class="site-header">
     <div class="container navbar">
         <a class="brand" href="<?= BASE_URL ?>index.php" aria-label="User Auth System home">
-            <span class="brand-mark" aria-hidden="true">U</span>Z
+            <span class="brand-mark" aria-hidden="true">U</span>
             <span>Auth<span style="color: var(--primary)">System</span></span>
         </a>
         <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false"
