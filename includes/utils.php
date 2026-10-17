@@ -16,11 +16,6 @@ function prepare($sql)
     return $pdo->prepare($sql);
 }
 
-function excute($stmt)
-{
-    $stmt->execute();
-}
-
 function closeCursor($stmt)
 {
     $stmt->closeCursor();
@@ -35,17 +30,20 @@ function isValidPassword($pass)
 // Login
 function isVerifiedPassword($pass)
 {
+    global $email;
     if (empty($pass))
         return false;
-
-    // check if empty
-    // check the password (length, one upper, one lower, one digit, one special)
+    
+    $sql = "SELECT * FROM users WHERE email = ?";
+    
+    $stmt = prepare($sql);
+    $stmt -> execute([$email]);
+    
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    return password_verify($pass, $user["password"]);
 }
 
-function isMatchingDB($hashedPass)
-{
-
-}
 
 function isValidEmail($email)
 {
