@@ -1,8 +1,9 @@
 <?php
-session_start();
-$pass = $_POST["pass"];
-$email = trim($_POST["email"]);
-$userName = trim($_POST["username"]);
+require_once __DIR__."/../config/dbconnect.php";
+
+$password = $_POST["password"] ?? "";
+$email = trim($_POST["email"] ?? "");
+$userName = trim($_POST["username"] ?? "");
 
 // Registration
 function isValidUsername($username)
@@ -52,21 +53,39 @@ function isValidPassword($pass)
     return $errors;
 }
 
+function displayPasswordErrors($pass)
+{
+    $errors = isValidPassword($pass);
+
+    if (empty($errors)) {
+        echo "Password is valid";
+    } else {
+        foreach ($errors as $error) {
+            echo "$error <br>";
+        }
+    }
+}
+
 // Login
 function isVerifiedPassword($pass)
 {
     global $email;
-    if (empty($pass))
-        return false;
 
-    $sql = "SELECT * FROM users WHERE email = ?";
+    if (empty($pass)) {
+        return false;
+    }
+
+    $sql = "SELECT password FROM users WHERE email = ? LIMIT 1";
 
     $stmt = prepare($sql);
     $stmt->execute([$email]);
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
     closeCursor($stmt);
+
+    if (!$user) {
+        return false;
+    }
 
     return password_verify($pass, $user["password"]);
 }
@@ -86,5 +105,34 @@ function isVerifiedEmail($email)
     return $exists;
 }
 
+function login ()
+{
+    global $email, $password;
 
+    if (isVerifiedEmail($email) && isVerifiedPassword($password)){
+        // Get the user info
+        $sql = "SELECT * FROM users WHERE email = ?";
+        $stmt = prepare($sql);
+        $stmt->execute([$email]);
+    
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$user)
+            return false;
+
+        closeCursor($stmt);
+
+        // Generate new session id and replace it with the old one
+        session_regenerate_id (true);
+
+        $_SESSION["user_id"] = $user["id"];
+        $_SESSION["username"] = $user["username"];
+        $_SESSION["email"] = $user["email"];
+        $_SESSION["role"] = $user["role"];
+
+        return true;
+    
+    }
+    return false;
+}
 ?>

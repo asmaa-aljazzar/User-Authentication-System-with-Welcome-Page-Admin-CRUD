@@ -20,7 +20,7 @@ function isExist($field, $value)
         return false;
     }
 
-    $sql = "SELECT 1 FROM user WHERE $field = ?";
+    $sql = "SELECT 1 FROM users WHERE $field = ?";
 
     $stmt = prepare($sql);
 
@@ -33,19 +33,6 @@ function isExist($field, $value)
     return $exists;
 }
 
-
-function displayPasswordErrors($pass)
-{
-    $errors = isValidPassword($pass);
-
-    if (empty($errors)) {
-        echo "Password is valid";
-    } else {
-        foreach ($errors as $error) {
-            echo "$error <br>";
-        }
-    }
-}
 
 function hashPassword($pass)
 {
