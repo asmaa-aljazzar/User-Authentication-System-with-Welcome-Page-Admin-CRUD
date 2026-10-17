@@ -217,10 +217,11 @@ p { color: var(--muted); }
 .auth-footer { margin-top: 22px; text-align: center; }
 .auth-footer p { margin-bottom: 0; }
 
-.welcome-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(250px, .8fr);
-  gap: 22px;
+.welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 .profile-list { display: grid; gap: 14px; margin: 24px 0; }
 .profile-item {

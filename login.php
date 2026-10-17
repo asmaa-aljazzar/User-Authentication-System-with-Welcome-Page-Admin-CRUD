@@ -1,7 +1,34 @@
 <?php
-    require ("includes/utils.php");
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
 
-    
+require_once "includes/utils.php";
+require_once "includes/auth.php";
+
+
+// Redirect if already logged in
+if (isset ($_SESSION["user_id"]))
+{
+    if ($_SESSION["role"] === "admin")
+       header('Location: admin/dashboard.php');
+    else
+        header ("Location: welcome.php");
+    exit;
+}
+
+$error = "";
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if (login())
+    {
+        if ($_SESSION['role'] === 'admin')
+            header('Location: admin/dashboard.php');
+        else
+            header('Location: welcome.php');
+        exit ;
+    }
+    $error = 'Invalid email or password';
+}
+
 ?>
 
 <!doctype html>
@@ -42,6 +69,11 @@
                 </div>
                 <form action="login.php" method="POST" data-validate>
                     <div class="form-group">
+
+                        <?php if (!empty($error)): ?>
+                            <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+                        <?php endif; ?>
+
                         <label for="email">Email address</label>
                         <input class="form-control" id="email" name="email" type="email" autocomplete="email"
                             placeholder="you@example.com" required>

@@ -10,7 +10,7 @@ try {
     $db = new PDO($dsn, DB_USER, DB_PASSWORD);
 
 } catch (PDOException $e) {
-    die("Database connection failed");
+    die("Database connection failed ". $e->getMessage());
 }
 
 ?>

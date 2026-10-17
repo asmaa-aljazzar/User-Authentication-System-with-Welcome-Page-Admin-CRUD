@@ -1,7 +1,5 @@
 
 <?php
-require("config/dbconnect.php");
-
 function prepare($sql)
 {
     global $db;
@@ -33,18 +31,6 @@ function isExist($field, $value)
     return $exists;
 }
 
-function displayPasswordErrors($pass)
-{
-    $errors = isValidPassword($pass);
-
-    if (empty($errors)) {
-        echo "Password is valid";
-    } else {
-        foreach ($errors as $error) {
-            echo "$error <br>";
-        }
-    }
-}
 
 function hashPassword($pass)
 {
@@ -106,4 +92,3 @@ function register($username, $email, $pass)
         return ['Registration failed. Please try again.'];
     }
 }
-?>
