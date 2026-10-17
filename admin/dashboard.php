@@ -59,7 +59,7 @@ $users = getAllUsers();
                                 <td><?= htmlspecialchars($user["created_at"]) ?></td>
                                 <td>
                                     <div class="table-actions">
-                                        <a class="button button-secondary button-small" href="edit.php?id=1">Edit</a>
+                                        <a class="button button-secondary button-small" href="edit.php?id=<?= (int) $user['id'] ?>">Edit</a>
                                         <form action="delete.php" method="POST">
                                             <input type="hidden" name="id" value="<?= (int) $user["id"] ?>">
                                             <button class="button button-danger button-small" type="submit"
