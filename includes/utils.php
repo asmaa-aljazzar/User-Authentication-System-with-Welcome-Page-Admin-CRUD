@@ -1,16 +1,35 @@
-
 <?php
+
+/**
+ * Prepares an SQL statement.
+ *
+ * @param string $sql SQL query to prepare.
+ * @return PDOStatement
+ */
 function prepare($sql)
 {
     global $db;
     return $db->prepare($sql);
 }
 
+/**
+ * Closes a statement's cursor.
+ *
+ * @param PDOStatement $stmt Statement to close.
+ * @return void
+ */
 function closeCursor($stmt)
 {
     $stmt->closeCursor();
 }
 
+/**
+ * Checks whether a field value exists in the database.
+ *
+ * @param string $field Database field to check.
+ * @param string $value Value to search for.
+ * @return bool
+ */
 function isExist($field, $value)
 {
     $allowedFields = ['username', 'email'];
@@ -31,7 +50,12 @@ function isExist($field, $value)
     return $exists;
 }
 
-
+/**
+ * Hashes a password after validating it.
+ *
+ * @param string $pass Password to hash.
+ * @return string|false
+ */
 function hashPassword($pass)
 {
     if (!empty(isValidPassword($pass)))
@@ -40,6 +64,14 @@ function hashPassword($pass)
     return password_hash($pass, PASSWORD_DEFAULT);
 }
 
+/**
+ * Validates registration data and creates a user account.
+ *
+ * @param string $username Username for the new account.
+ * @param string $email Email address for the new account.
+ * @param string $pass Password for the new account.
+ * @return bool|array True on success, or validation errors.
+ */
 function register($username, $email, $pass)
 {
     global $db;

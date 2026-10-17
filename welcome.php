@@ -1,3 +1,10 @@
+<?php
+    if (session_status() == PHP_SESSION_NONE) 
+        session_start();
+    require_once("includes/admin_auth.php");
+
+    requireRole("user");
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,7 +25,7 @@
         <h1>Welcome, User!</h1>
         <p>This is a static page template. Connect it to your account data when you add your PHP logic.</p>
     </div>
-    <div class="welcome">
+    <div class="welcome-grid">
         <section class="card">
             <h2>Account information</h2>
             <div class="profile-list">

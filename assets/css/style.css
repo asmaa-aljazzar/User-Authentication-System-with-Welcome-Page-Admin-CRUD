@@ -217,12 +217,12 @@ p { color: var(--muted); }
 .auth-footer { margin-top: 22px; text-align: center; }
 .auth-footer p { margin-bottom: 0; }
 
-.welcome {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+.welcome-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
 }
+
 .profile-list { display: grid; gap: 14px; margin: 24px 0; }
 .profile-item {
   display: flex;

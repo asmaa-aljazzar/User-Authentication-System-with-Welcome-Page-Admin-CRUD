@@ -2,6 +2,12 @@
 <?php
 include 'includes/auth.php';
 include 'includes/utils.php';
+require_once "includes/admin_auth.php";
+
+
+
+// Redirect if already logged in
+checkRole();
 
 $errors = [];
 $registered = false;

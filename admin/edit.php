@@ -1,3 +1,10 @@
+<?php
+    if (session_status() == PHP_SESSION_NONE) 
+        session_start();
+    require_once("../includes/admin_auth.php");
+
+    requireRole("admin");
+?>
 <!doctype html>
 <html lang="en">
 <head>
