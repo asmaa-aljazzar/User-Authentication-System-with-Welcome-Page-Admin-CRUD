@@ -2,8 +2,15 @@
     if (session_status() == PHP_SESSION_NONE) 
         session_start();
     require_once("../includes/admin_auth.php");
+    require_once __DIR__ . "/../includes/crud.php";
 
     requireRole("admin");
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        addUser($_POST['username'], $_POST['email'], $_POST['password'], $_POST['role']);
+        header("Location: dashboard.php");
+        exit;
+    }
 ?>
 
 <!doctype html>
