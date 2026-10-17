@@ -2,6 +2,7 @@
 require("config/dbconnect.php");
 
 $pass = $_POST["pass"];
+$email = $_POST["email"];
 
 function isExist($feild, $value)
 {
@@ -13,11 +14,6 @@ function prepare($sql)
 {
     global $pdo;
     return $pdo->prepare($sql);
-}
-
-function excute($stmt)
-{
-    $stmt->execute();
 }
 
 function closeCursor($stmt)
@@ -34,17 +30,20 @@ function isValidPassword($pass)
 // Login
 function isVerifiedPassword($pass)
 {
+    global $email;
     if (empty($pass))
         return false;
-
-    // check if empty
-    // check the password (length, one upper, one lower, one digit, one special)
+    
+    $sql = "SELECT * FROM users WHERE email = ?";
+    
+    $stmt = prepare($sql);
+    $stmt -> execute([$email]);
+    
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    return password_verify($pass, $user["password"]);
 }
 
-function isMatchingDB($EMAIL = "", $hashedPass)
-{
-
-}
 
 function isValidEmail($email)
 {
