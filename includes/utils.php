@@ -85,4 +85,14 @@ function isVerifiedEmail($email)
     return $exists;
 }
 
+function isVerifiedUser(){
+
+}
+
+function isValidUserName($user){
+
+    
+    
+}
+
 ?>
