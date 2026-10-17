@@ -1,14 +1,16 @@
-<?php
-define ("USER", "root");
-define ("PASSWORD", "");
 
-// work on localhost on authentication database with utf8.
-$dsn = "mysql:host=localhost;dbname=authentication;charset=utf8mb4";
+<?php
+
+define('DB_USER', 'root');
+define('DB_PASSWORD', '');
+
+$dsn = "mysql:host=localhost;dbname=auth;";
 
 try {
-    $pdo = new PDO ($dsn, USER, PASSWORD);
+    $db = new PDO($dsn, DB_USER, DB_PASSWORD);
 
-    $pdo->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e){
-    echo $e -> getMessage();
+} catch (PDOException $e) {
+    die("Database connection failed");
 }
+
+?>
