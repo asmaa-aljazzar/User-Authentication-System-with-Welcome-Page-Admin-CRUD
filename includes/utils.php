@@ -57,4 +57,20 @@ function isValidEmail($email)
 
     return false;
 }
+
+function isVerifiedEmail($email)
+{
+    if (!isValidEmail($email)) {
+        return false;
+    }
+
+    $stmt = prepare("SELECT 1 FROM users WHERE email = ? LIMIT 1");
+    $stmt->execute([$email]);
+
+    $exists = (bool) $stmt->fetchColumn();
+    $stmt->closeCursor();
+
+    return $exists;
+}
+
 ?>
