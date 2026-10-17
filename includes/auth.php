@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__."/../config/dbconnect.php";
 
@@ -8,8 +9,9 @@ $userName = trim($_POST["username"] ?? "");
 // Registration
 function isValidUsername($username)
 {
-    if (empty ($username))
+    if (empty($username))
         return false;
+
     return strlen($username) >= 3 && strlen($username) <= 50;
 }
 
@@ -46,7 +48,7 @@ function isValidPassword($pass)
         $errors[] = "Password must contain a digit.";
     }
 
-    if (!preg_match('/[!@*#$%^&]/', $pass)) {
+    if (!preg_match('/[!@\*#$%^&]/', $pass)) {
         $errors[] = "Password must contain a special character.";
     }
 
@@ -70,6 +72,9 @@ function displayPasswordErrors($pass)
 function isVerifiedPassword($pass)
 {
     global $email;
+
+    if (empty($pass))
+        return false;
 
     if (empty($pass)) {
         return false;

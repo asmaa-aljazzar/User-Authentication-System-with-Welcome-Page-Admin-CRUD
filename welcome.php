@@ -18,7 +18,7 @@
         <h1>Welcome, User!</h1>
         <p>This is a static page template. Connect it to your account data when you add your PHP logic.</p>
     </div>
-    <div class="welcome-grid">
+    <div class="welcome">
         <section class="card">
             <h2>Account information</h2>
             <div class="profile-list">
@@ -37,12 +37,6 @@
             </div>
             <a class="button button-secondary" href="logout.php">Log out</a>
         </section>
-        <aside class="card">
-            <span class="eyebrow">Account status</span>
-            <h2>Frontend preview</h2>
-            <p>Use this page as the layout for your future authenticated user area.</p>
-            <a class="button" href="admin/dashboard.php">Open admin dashboard</a>
-        </aside>
     </div>
 </main>
 <footer class="site-footer">
