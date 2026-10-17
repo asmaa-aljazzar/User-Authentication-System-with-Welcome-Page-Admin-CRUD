@@ -13,6 +13,30 @@ function addUser($username, $email, $password, $role)
 
     return $result;
 }
+function getAllUsers()
+{
+    $sql = "SELECT * From users WHERE role = 'user'";
+
+    $stmt = prepare($sql);
+
+    $stmt->execute();
+
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    closeCursor($stmt);
+
+    return $users;
+}
+
+function deleteUser($id)
+{
+    $sql = "DELETE FROM users WHERE id = ?";
+
+    $stmt = prepare($sql);
+
+    $stmt->execute([$id]);
+    
+    return $stmt->rowCount() > 0;
+}
 
 function editUser($id, $username, $email, $role)
 {
