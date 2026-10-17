@@ -2,6 +2,7 @@
 require("config/dbconnect.php");
 
 $pass = $_POST["pass"];
+$email = $_POST["email"];
 
 function isExist($feild, $value)
 {
@@ -41,7 +42,7 @@ function isVerifiedPassword($pass)
     // check the password (length, one upper, one lower, one digit, one special)
 }
 
-function isMatchingDB($EMAIL = "", $hashedPass)
+function isMatchingDB($hashedPass)
 {
 
 }
